@@ -1,7 +1,7 @@
 package com.aldogg.sorter.int_.st;
 
-import com.aldogg.sorter.SortingNetworks;
-import com.aldogg.sorter.int_.IntSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.int_.SorterInt;
 
 import static com.aldogg.sorter.BitSorterParams.VERY_SMALL_N_SIZE;
 
@@ -11,32 +11,31 @@ import static com.aldogg.sorter.BitSorterParams.VERY_SMALL_N_SIZE;
   - Small list with Sorting Networks
   - use of aux array created once
  */
-public class MergeSorter2Int implements IntSorter {
+public class MergeSorter2Int implements SorterInt {
 
     @Override
-    public void sort(int[] array, int start, int endP1) {
+    public void sort(int[] array, int start, int endP1, FieldOptions options) {
         int n = endP1 - start;
         int[] aux = new int[n];
-        mergeSort(array, aux, start, endP1);
+        mergeSort(array, aux, start, endP1, options);
     }
 
-    public static void mergeSort(int[] a, int[] aux, int start, int endP1) {
+    public static void mergeSort(int[] array, int[] aux, int start, int endP1, FieldOptions options) {
         int n = endP1 - start;
         if (n < 2) {
             return;
         }
         if (n <= VERY_SMALL_N_SIZE) {
-            int length = endP1 - start;
-            SortingNetworks.signedSNFunctions[length].accept(a, start);
+            SortingNetworksInt.getInstance().sort(array, start, endP1, options);
             return;
         }
 
         int mid = n / 2;
         int midIndex = start + mid;
-        mergeSort(a, aux, start, midIndex);
-        mergeSort(a, aux, midIndex, endP1);
+        mergeSort(array, aux, start, midIndex, options);
+        mergeSort(array, aux, midIndex, endP1, options);
 
-        merge(a, aux, start, endP1, midIndex);
+        merge(array, aux, start, endP1, midIndex);
     }
 
 

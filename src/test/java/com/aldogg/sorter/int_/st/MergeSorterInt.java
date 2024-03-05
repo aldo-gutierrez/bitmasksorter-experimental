@@ -1,17 +1,17 @@
 package com.aldogg.sorter.int_.st;
 
-import com.aldogg.sorter.int_.IntSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.int_.SorterInt;
 
 /**
  * Default MergeSort Implementation
  */
-public class MergeSorterInt implements IntSorter {
+public class MergeSorterInt implements SorterInt {
 
     @Override
-    public void sort(int[] array, int start, int endP1) {
+    public void sort(int[] array, int start, int endP1, FieldOptions options) {
         mergeSort(array, endP1 - start);
     }
-
 
     public static void mergeSort(int[] a, int n) {
         if (n < 2) {

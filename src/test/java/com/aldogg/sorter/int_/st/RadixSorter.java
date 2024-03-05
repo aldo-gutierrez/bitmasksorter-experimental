@@ -1,9 +1,10 @@
 package com.aldogg.sorter.int_.st;
 
-import com.aldogg.sorter.int_.IntSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.int_.SorterInt;
 
 // Radix Sort in Java Programming
-public class RadixSorter implements IntSorter {
+public class RadixSorter implements SorterInt {
     // Using counting sort to sort the elements in the basis of significant places
     void countingSort(int[] array, int size, int place) {
         int[] output = new int[size + 1];
@@ -55,14 +56,9 @@ public class RadixSorter implements IntSorter {
 
 
     @Override
-    public void sort(int[] array) {
+    public void sort(int[] array, int start, int endP1, FieldOptions options) {
         int size = array.length;
         RadixSorter rs = new RadixSorter();
         rs.radixSort(array, size);
-    }
-
-    @Override
-    public void sort(int[] array, int start, int endP1) {
-        throw new UnsupportedOperationException();
     }
 }

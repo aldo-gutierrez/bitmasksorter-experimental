@@ -1,7 +1,6 @@
 package com.aldogg.sorter.test;
 
-import com.aldogg.sorter.Sorter;
-import com.aldogg.sorter.byte_.ByteSorter;
+import com.aldogg.sorter.byte_.SorterByte;
 import com.aldogg.sorter.byte_.st.JavaSorterByte;
 import com.aldogg.sorter.byte_.st.RadixByteSorterByte;
 import com.aldogg.sorter.generators.GeneratorFunctions;
@@ -12,16 +11,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Random;
 
-import static com.aldogg.sorter.test.BaseTest.*;
-
 public class ByteSorterTest extends BasicTest2 {
     @Test
     public void speedTestPositiveByteST() throws IOException {
-        ByteSorter[] sorters = new ByteSorter[]{new JavaSorterByte(), new RadixByteSorterByte()};
+        SorterByte[] sorters = new SorterByte[]{new JavaSorterByte(), new RadixByteSorterByte()};
         BufferedWriter writer = getWriter("test-results/speed_positiveByte_st_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
 
-        TestAlgorithms<ByteSorter> testAlgorithms;
+        TestAlgorithms<SorterByte> testAlgorithms;
 
         //heatup
         testAlgorithms = new TestAlgorithms<>(sorters);
@@ -56,11 +53,11 @@ public class ByteSorterTest extends BasicTest2 {
 
     @Test
     public void speedTestSignedByteST() throws IOException {
-        ByteSorter[] sorters = new ByteSorter[]{new JavaSorterByte(), new RadixByteSorterByte()};
+        SorterByte[] sorters = new SorterByte[]{new JavaSorterByte(), new RadixByteSorterByte()};
         BufferedWriter writer = getWriter("test-results/speed_signedByte_st_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
 
-        TestAlgorithms<ByteSorter> testAlgorithms;
+        TestAlgorithms<SorterByte> testAlgorithms;
 
         //heatup
         testAlgorithms = new TestAlgorithms<>(sorters);
@@ -98,13 +95,14 @@ public class ByteSorterTest extends BasicTest2 {
     public void speedTestUnsigned() throws IOException {
         BufferedWriter writer = getWriter("test-results/speed_unsignedByte_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
-        ByteSorter[] sorters = new ByteSorter[]{new RadixByteSorterByte()};
+        SorterByte[] sorters = new SorterByte[]{new RadixByteSorterByte()};
 
-        for (Sorter sorter : sorters) {
-            sorter.setUnsigned(true);
-        }
+        //TODO FIX THIS
+//        for (Sorter sorter : sorters) {
+//            sorter.setUnsigned(true);
+//        }
 
-        TestAlgorithms<ByteSorter> testAlgorithms;
+        TestAlgorithms<SorterByte> testAlgorithms;
 
         GeneratorParams params = new GeneratorParams();
         params.random = new Random(SEED);

@@ -1,30 +1,27 @@
 package com.aldogg.sorter.int_.experimental;
 
-import com.aldogg.sorter.int_.IntSorterUtils;
+import com.aldogg.sorter.int_.SorterUtilsInt;
 
 /**
  *
  */
 public class IntSorterUtils3 {
 
-    public static void swap3(final int[] array, final int left, final int right, final int nPosLeft, final  int nPosRight) {
+    public static void swap3(final int[] array, final int left, final int right, final int nPosLeft, final int nPosRight) {
         int auxL = array[left];
         int auxR = array[right];
         array[nPosLeft] = auxL;
         array[nPosRight] = auxR;
     }
 
-    public static int[] skipSorted(final int[] array, final int start, final int endP1, final int sortMask) {
-        int left = start;
-        int right = endP1 - 1;
-
+    public static int[] skipSortedPart(final int[] array, int left, int right, final int sortMask) {
         while (left <= right) {
             if ((array[left] & sortMask) == 0) {
                 left++;
             } else {
                 while (left + 1 <= right) {
-                    if ((array[left+1] & sortMask) == 0) {
-                        IntSorterUtils.swap(array, left, left+1);
+                    if ((array[left + 1] & sortMask) == 0) {
+                        SorterUtilsInt.swap(array, left, left + 1);
                         left++;
                     } else {
                         break;
@@ -38,9 +35,9 @@ public class IntSorterUtils3 {
             if ((array[right] & sortMask) != 0) {
                 right--;
             } else {
-                while (left  <= right - 1) {
+                while (left <= right - 1) {
                     if ((array[right - 1] & sortMask) != 0) {
-                        IntSorterUtils.swap(array, right, right - 1);
+                        SorterUtilsInt.swap(array, right, right - 1);
                         right--;
                     } else {
                         break;
@@ -49,7 +46,7 @@ public class IntSorterUtils3 {
                 break;
             }
         }
-        return new int[] {left, right};
+        return new int[]{left, right};
     }
 
     public static int[] skipSortedReverse(final int[] array, final int start, final int endP1, final int mask) {
@@ -61,8 +58,8 @@ public class IntSorterUtils3 {
                 left++;
             } else {
                 while (left + 1 <= right) {
-                    if ((array[left+1] & mask) != 0) {
-                        IntSorterUtils.swap(array, left, left+1);
+                    if ((array[left + 1] & mask) != 0) {
+                        SorterUtilsInt.swap(array, left, left + 1);
                         left++;
                     } else {
                         break;
@@ -76,9 +73,9 @@ public class IntSorterUtils3 {
             if ((array[right] & mask) == 0) {
                 right--;
             } else {
-                while (left  <= right - 1) {
+                while (left <= right - 1) {
                     if ((array[right - 1] & mask) == 0) {
-                        IntSorterUtils.swap(array, right, right - 1);
+                        SorterUtilsInt.swap(array, right, right - 1);
                         right--;
                     } else {
                         break;
@@ -87,7 +84,7 @@ public class IntSorterUtils3 {
                 break;
             }
         }
-        return new int[] {left, right};
+        return new int[]{left, right};
     }
 
     /**
@@ -95,7 +92,7 @@ public class IntSorterUtils3 {
      * @return
      */
     public static int partitionStableRecursive(final int[] array, final int start, final int endP1, final int mask) {
-        int[] aux = skipSorted(array, start, endP1, mask);
+        int[] aux = skipSortedPart(array, start, endP1 - 1, mask);
         int left = aux[0];
         int right = aux[1];
 
@@ -106,8 +103,8 @@ public class IntSorterUtils3 {
                 return left;
             }
         } else {
-            int leftAux = partitionStableReverseRecursive(array, left, right+1, mask);
-            return reverseResult(array, left, right+1, leftAux);
+            int leftAux = partitionStableReverseRecursive(array, left, right + 1, mask);
+            return reverseResult(array, left, right + 1, leftAux);
         }
     }
 
@@ -124,20 +121,20 @@ public class IntSorterUtils3 {
                 return left;
             }
         } else {
-            int leftAux = partitionStableRecursive(array, left, right+1, mask);
+            int leftAux = partitionStableRecursive(array, left, right + 1, mask);
             //Reverse Result
-            return reverseResult(array, left, right+1, leftAux);
+            return reverseResult(array, left, right + 1, leftAux);
         }
     }
 
-    public static int  reverseResult(int[] array, int left, int right, int leftAux) {
+    public static int reverseResult(int[] array, int left, int right, int leftAux) {
         int lengthLeftAux = leftAux - left;
         int lengthRightAux = right - leftAux;
         boolean mayorLeft = lengthLeftAux > lengthRightAux;
         if (lengthLeftAux != 0 && lengthRightAux != 0) {
             if (lengthLeftAux == lengthRightAux) {
-                for (int i=0; i < lengthLeftAux; i++) {
-                    IntSorterUtils.swap(array, left + i, leftAux + i);
+                for (int i = 0; i < lengthLeftAux; i++) {
+                    SorterUtilsInt.swap(array, left + i, leftAux + i);
                 }
             } else {
                 if (mayorLeft) {
@@ -145,7 +142,7 @@ public class IntSorterUtils3 {
                     if ((lengthLeftAux - lengthRightAux) < lengthRightAux) {
                         int[] aux = new int[lengthLeftAux - lengthRightAux];
                         System.arraycopy(array, left, aux, 0, aux.length);
-                        for (int i=0; i < lengthRightAux; i++) {
+                        for (int i = 0; i < lengthRightAux; i++) {
                             swap3(array, leftAux - lengthRightAux + i, leftAux + i, leftAux + i, left + i);
                         }
                         System.arraycopy(aux, 0, array, left + lengthRightAux, aux.length);
@@ -160,8 +157,8 @@ public class IntSorterUtils3 {
                     if ((lengthRightAux - lengthLeftAux) < lengthLeftAux) {
                         int[] aux = new int[lengthRightAux - lengthLeftAux];
                         System.arraycopy(array, right - aux.length, aux, 0, aux.length);
-                        for (int i=0; i < lengthLeftAux; i++) {
-                            swap3(array, leftAux - 1 -i, leftAux + lengthLeftAux - 1 - i, right -1 -i ,  leftAux -1 -i);
+                        for (int i = 0; i < lengthLeftAux; i++) {
+                            swap3(array, leftAux - 1 - i, leftAux + lengthLeftAux - 1 - i, right - 1 - i, leftAux - 1 - i);
                         }
                         System.arraycopy(aux, 0, array, left + lengthLeftAux, aux.length);
                     } else {
@@ -171,7 +168,7 @@ public class IntSorterUtils3 {
                         System.arraycopy(aux, 0, array, right - aux.length, aux.length);
                     }
                 }
-                return  left + lengthRightAux;
+                return left + lengthRightAux;
             }
         }
         return leftAux;

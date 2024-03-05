@@ -1,20 +1,15 @@
 package com.aldogg.sorter.byte_.st;
 
-import com.aldogg.sorter.byte_.ByteSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.byte_.SorterByte;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-public class JavaSorterByte implements ByteSorter {
+public class JavaSorterByte implements SorterByte {
 
     @Override
-    public void sort(byte[] array, int start, int endP1) {
+    public void sort(byte[] array, int start, int endP1, FieldOptions options) {
         Arrays.sort(array, start, endP1);
     }
 
-    @Override
-    public void sort(List<Byte> list) {
-        Collections.sort(list);
-    }
 }

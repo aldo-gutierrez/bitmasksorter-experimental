@@ -2,7 +2,7 @@ package com.aldogg.sorter.test;
 
 import com.aldogg.sorter.generators.GeneratorFunctions;
 import com.aldogg.sorter.generators.GeneratorParams;
-import com.aldogg.sorter.short_.ShortSorter;
+import com.aldogg.sorter.short_.SorterShort;
 import com.aldogg.sorter.short_.st.*;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +10,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Random;
 
-import static com.aldogg.sorter.test.BaseTest.*;
-
 public class ShortSorterTest extends BasicTest2 {
 
     @Test
     public void speedTestPositiveShortST() throws IOException {
-        ShortSorter[] sorters = new ShortSorter[]{new JavaSorterShort(), new RadixByteSorterShort(), new RadixWordSorterShort(), new ShortSorterTreeMap()};
+        SorterShort[] sorters = new SorterShort[]{new JavaSorterShort(), new RadixByteSorterShort(), new RadixWordSorterShort(), new ShortSorterTreeMap()};
         BufferedWriter writer = getWriter("test-results/speed_positiveShort_st_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
-        TestAlgorithms<ShortSorter> testAlgorithms;
+        TestAlgorithms<SorterShort> testAlgorithms;
 
         //heatup
         testAlgorithms = new TestAlgorithms<>(sorters);
@@ -54,11 +52,11 @@ public class ShortSorterTest extends BasicTest2 {
 
     @Test
     public void speedTestSignedShortST() throws IOException {
-        ShortSorter[] sorters = new ShortSorter[]{new JavaSorterShort(), new RadixWordSorterShort(), new RadixByteSorterShort()};
+        SorterShort[] sorters = new SorterShort[]{new JavaSorterShort(), new RadixWordSorterShort(), new RadixByteSorterShort()};
         BufferedWriter writer = getWriter("test-results/speed_signedShort_st_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
 
-        TestAlgorithms<ShortSorter> testAlgorithms;
+        TestAlgorithms<SorterShort> testAlgorithms;
 
         //heatup
         testAlgorithms = new TestAlgorithms<>(sorters);
@@ -94,12 +92,13 @@ public class ShortSorterTest extends BasicTest2 {
     }
 
     @Test
+    //TODO FIX THIS
     public void speedTestSignedShortST2() throws IOException {
-        ShortSorter[] sorters = new ShortSorter[]{new Partition1(), new Partition2(), new Partition3(), new Partition4(), new Partition5()};
+        SorterShort[] sorters = new SorterShort[]{new Partition1(), new Partition2(), new Partition3(), new Partition4(), new Partition5()};
         BufferedWriter writer = getWriter("test-results/speed_test_st_" + branch + ".csv");
         writer.write("\"Size\"" + "," + "\"Range\"" + "," + "\"Sorter\"" + "," + "\"Time\"" + "\n");
 
-        TestAlgorithms<ShortSorter> testAlgorithms;
+        TestAlgorithms<SorterShort> testAlgorithms;
 
         //heatup
         testAlgorithms = new TestAlgorithms<>(sorters);

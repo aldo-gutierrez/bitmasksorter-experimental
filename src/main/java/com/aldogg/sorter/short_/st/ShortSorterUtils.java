@@ -1,8 +1,8 @@
 package com.aldogg.sorter.short_.st;
 
-import com.aldogg.sorter.AnalysisResult;
-import com.aldogg.sorter.IntSection;
-import com.aldogg.sorter.MaskInfoInt;
+import com.aldogg.sorter.shared.OrderAnalysisResult;
+import com.aldogg.sorter.shared.Section;
+import com.aldogg.sorter.shared.int_mask.MaskInfoInt;
 
 public class ShortSorterUtils {
 
@@ -34,7 +34,7 @@ public class ShortSorterUtils {
             ++i;
         }
         if (i == endP1) {
-            return AnalysisResult.ALL_EQUAL;
+            return OrderAnalysisResult.ALL_EQUAL;
         }
 
         //ascending
@@ -49,7 +49,7 @@ public class ShortSorterUtils {
                 i1 = i2;
             }
             if (i == endP1) {
-                return AnalysisResult.ASCENDING;
+                return OrderAnalysisResult.ASCENDING;
             }
         }
         //descending
@@ -63,10 +63,10 @@ public class ShortSorterUtils {
                 i1 = i2;
             }
             if (i == endP1) {
-                return AnalysisResult.DESCENDING;
+                return OrderAnalysisResult.DESCENDING;
             }
         }
-        return AnalysisResult.UNORDERED;
+        return OrderAnalysisResult.UNORDERED;
     }
 
 
@@ -188,10 +188,10 @@ public class ShortSorterUtils {
         return left;
     }
 
-    public static int[] partitionStableLastBits(short[] array, int start, IntSection section, short[] aux, int n) {
-        final int mask = section.sortMask;
+    public static int[] partitionStableLastBits(short[] array, int start, Section section, short[] aux, int n) {
+        final int mask = section.getIntMask();
         final int endP1 = start + n;
-        final int countLength = 1 << section.length;
+        final int countLength = 1 << section.bits;
         final int[] count = new int[countLength];
         for (int i = start; i < endP1; ++i) {
             count[array[i] & mask]++;
@@ -208,11 +208,11 @@ public class ShortSorterUtils {
         return count;
     }
 
-    public static int[] partitionStableOneGroupBits(short[] array, int start, IntSection section, short[] aux, int startAux, int n) {
-        final int mask = section.sortMask;
-        final int shiftRight = section.shiftRight;
+    public static int[] partitionStableOneGroupBits(short[] array, int start, Section section, short[] aux, int startAux, int n) {
+        final int mask = section.getIntMask();
+        final int shiftRight = section.shift;
         final int endP1 = start + n;
-        final int countLength = 1 << section.length;
+        final int countLength = 1 << section.bits;
         final int[] count = new int[countLength];
         for (int i = start; i < endP1; ++i) {
             count[(array[i] & mask) >>> shiftRight]++;
@@ -237,16 +237,16 @@ public class ShortSorterUtils {
     }
 
     public static MaskInfoInt getMaskBit(final short[] array, final int start, final int endP1) {
-        int p_mask = 0x0000;
-        int i_mask = 0x0000;
+        int pMask = 0x0000;
+        int iMask = 0x0000;
         for (int i = start; i < endP1; i++) {
             int e = array[i];
-            p_mask = p_mask | e;
-            i_mask = i_mask | (~e);
+            pMask = pMask | e;
+            iMask = iMask | (~e);
         }
         MaskInfoInt m = new MaskInfoInt();
-        m.p_mask = p_mask & 0x0000FFFF;
-        m.i_mask = i_mask & 0x0000FFFF;
+        m.pMask = pMask & 0x0000FFFF;
+        m.iMask = iMask & 0x0000FFFF;
         return m;
     }
 

@@ -1,6 +1,7 @@
 package com.aldogg.sorter.int_.experimental;
 
-import com.aldogg.sorter.int_.IntSorterUtils;
+
+import com.aldogg.sorter.int_.SorterUtilsInt;
 
 public class IntSorterUtils2 {
 
@@ -39,7 +40,7 @@ public class IntSorterUtils2 {
             System.arraycopy(aux, 0, array, left, right);
         } else {
             for (int j = 0; j < (right - (start + half)); j++) {
-                IntSorterUtils.swap(array, right - j - 1, endP1 - j - 1);
+                SorterUtilsInt.swap(array, right - j - 1, endP1 - j - 1);
             }
             System.arraycopy(auxOriginal, 0, array, left, half);
         }
@@ -102,7 +103,7 @@ public class IntSorterUtils2 {
             }
             if (filledRight && !filledLeft) {
                 for (int j = 0; j < rightBlockLength; j++) {
-                    IntSorterUtils.swap(array, right - j - 1, endP1 - j - 1);
+                    SorterUtilsInt.swap(array, right - j - 1, endP1 - j - 1);
                 }
                 System.arraycopy(auxOriginal, 0, array, left, oneThird);
                 return left;

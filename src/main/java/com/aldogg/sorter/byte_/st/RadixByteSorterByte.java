@@ -1,24 +1,14 @@
 package com.aldogg.sorter.byte_.st;
 
-import com.aldogg.sorter.byte_.ByteSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.byte_.SorterByte;
 
-public class RadixByteSorterByte implements ByteSorter {
-
-    protected boolean unsigned = false;
-
-    @Override
-    public boolean isUnsigned() {
-        return unsigned;
-    }
-
-    public void setUnsigned(boolean unsigned) {
-        this.unsigned = unsigned;
-    }
+public class RadixByteSorterByte implements SorterByte {
 
     @Override
-    public void sort(byte[] array, int start, int endP1) {
+    public void sort(byte[] array, int start, int endP1, FieldOptions options) {
         int[] count = new int[256];
-        if (!isUnsigned()) {
+        if (!options.isUnsigned()) {
             for (int i = start; i < endP1; ++i) {
                 count[array[i] + 128]++;
             }

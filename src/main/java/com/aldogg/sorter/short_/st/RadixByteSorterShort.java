@@ -1,8 +1,9 @@
 package com.aldogg.sorter.short_.st;
 
-import com.aldogg.sorter.AnalysisResult;
-import com.aldogg.sorter.IntSection;
-import com.aldogg.sorter.MaskInfoInt;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.shared.OrderAnalysisResult;
+import com.aldogg.sorter.shared.Section;
+import com.aldogg.sorter.shared.int_mask.MaskInfoInt;
 
 import static com.aldogg.sorter.short_.st.ShortSorterUtils.getMaskBit;
 import static com.aldogg.sorter.short_.st.ShortSorterUtils.listIsOrderedSigned;
@@ -17,16 +18,16 @@ public class RadixByteSorterShort extends ShortBitMaskSorter {
     }
 
     @Override
-    public void sort(short[] array, final int start, final int endP1) {
+    public void sort(short[] array, int start, int endP1, FieldOptions options) {
         int n = endP1 - start;
         if (n < 2) {
             return;
         }
         int ordered = listIsOrderedSigned(array, start, endP1);
-        if (ordered == AnalysisResult.DESCENDING) {
+        if (ordered == OrderAnalysisResult.DESCENDING) {
             ShortSorterUtils.reverse(array, start, endP1);
         }
-        if (ordered != AnalysisResult.UNORDERED) return;
+        if (ordered != OrderAnalysisResult.UNORDERED) return;
 
         int[] kList = null;
 
@@ -38,11 +39,11 @@ public class RadixByteSorterShort extends ShortBitMaskSorter {
                 return;
             }
         }
-        sort(array, start, endP1, kList);
+        sort(array, start, endP1, options, kList, null);
     }
 
     @Override
-    public void sort(short[] array, int start, int endP1, int[] kList) {
+    public void sort(short[] array, int start, int endP1, FieldOptions options, int[] kList, Object params) {
         int mask = 0x0000FFFF;
         if (calculateBitMaskOptimization) {
             if (kList.length == 0) {
@@ -79,15 +80,13 @@ public class RadixByteSorterShort extends ShortBitMaskSorter {
         boolean s0 = (mask & 0xFF) != 0;
         boolean s8 = (mask & 0xFF00) != 0;
         int n = endP1 - start;
-        IntSection section = new IntSection();
-        section.length = 8;
         int ops = 0;
         short[] arrayOrig = array;
         int startOrig = start;
         int startAux = 0;
 
         if (s0) {
-            section.sortMask = 0xFF;
+            Section section = new Section(8, 0);
             ShortSorterUtils.partitionStableLastBits(array, start, section, aux, n);
 
             short[] tempArray = array;
@@ -100,8 +99,7 @@ public class RadixByteSorterShort extends ShortBitMaskSorter {
 
         }
         if (s8) {
-            section.sortMask = 0xFF00;
-            section.shiftRight = 8;
+            Section section = new Section(8, 8);
             ShortSorterUtils.partitionStableOneGroupBits(array, start, section, aux, startAux, n);
             array = aux;
             start = startAux;

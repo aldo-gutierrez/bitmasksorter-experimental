@@ -1,9 +1,9 @@
 package com.aldogg.sorter.test;
 
-import com.aldogg.sorter.byte_.ByteSorter;
+import com.aldogg.sorter.byte_.SorterByte;
 import com.aldogg.sorter.generators.GeneratorParams;
 import com.aldogg.sorter.generators.IntGenerator;
-import com.aldogg.sorter.short_.ShortSorter;
+import com.aldogg.sorter.short_.SorterShort;
 import com.aldogg.sorter.test.unit.IntBasicTest;
 
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class BasicTest2 extends IntBasicTest {
 
-    public void testSpeed(ByteSorter[] sorters, int iterations, GeneratorParams params, TestAlgorithms testSortResults) {
+    public void testSpeed(SorterByte[] sorters, int iterations, GeneratorParams params, TestAlgorithms testSortResults) {
         Function<GeneratorParams, int[]> function = IntGenerator.getGFunction(params.function);
         for (int iter = 0; iter < iterations; iter++) {
             int[] listInts = function.apply(params);
@@ -25,10 +25,10 @@ public class BasicTest2 extends IntBasicTest {
         }
     }
 
-    public void testSort(byte[] list, ByteSorter[] sorters, TestAlgorithms testSortResults) {
+    public void testSort(byte[] list, SorterByte[] sorters, TestAlgorithms testSortResults) {
         byte[] baseListSorted = null;
         for (int i = 0; i < sorters.length; i++) {
-            ByteSorter sorter = sorters[i];
+            SorterByte sorter = sorters[i];
             byte[] listAux = Arrays.copyOf(list, list.length);
             try {
                 long start = System.nanoTime();
@@ -62,7 +62,7 @@ public class BasicTest2 extends IntBasicTest {
     }
 
 
-    public void testSpeed(ShortSorter[] sorters, int iterations, GeneratorParams params, TestAlgorithms testSortResults)  {
+    public void testSpeed(SorterShort[] sorters, int iterations, GeneratorParams params, TestAlgorithms testSortResults)  {
         Function<GeneratorParams, int[]> function = IntGenerator.getGFunction(params.function);
         for (int iter = 0; iter < iterations; iter++) {
             int[] listInts = function.apply(params);
@@ -74,10 +74,10 @@ public class BasicTest2 extends IntBasicTest {
         }
     }
 
-    public void testSort(short[] list, ShortSorter[] sorters, TestAlgorithms testSortResults) {
+    public void testSort(short[] list, SorterShort[] sorters, TestAlgorithms testSortResults) {
         short[] baseListSorted = null;
         for (int i = 0; i < sorters.length; i++) {
-            ShortSorter sorter = sorters[i];
+            SorterShort sorter = sorters[i];
             short[] listAux = Arrays.copyOf(list, list.length);
             try {
                 long start = System.nanoTime();

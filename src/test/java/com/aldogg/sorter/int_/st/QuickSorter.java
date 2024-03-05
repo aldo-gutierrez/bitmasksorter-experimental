@@ -1,11 +1,12 @@
 package com.aldogg.sorter.int_.st;
 
-import com.aldogg.sorter.int_.IntSorter;
+import com.aldogg.sorter.FieldOptions;
+import com.aldogg.sorter.int_.SorterInt;
 
-public class QuickSorter implements IntSorter {
+public class QuickSorter implements SorterInt {
 
     @Override
-    public void sort(int[] array, int start, int endP1) {
+    public void sort(int[] array, int start, int endP1, FieldOptions fieldOptions) {
         quickSort(array, 0, endP1 - 1);
     }
 
